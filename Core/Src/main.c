@@ -159,12 +159,16 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  dma_buffer[0] = 'i';
-  dma_buffer[1] = 'm';
-  dma_buffer[2] = 'x';
+  dma_buffer[0] = '\r';
+  dma_buffer[1] = '\n';
+  dma_buffer[2] = 'L';
+  dma_buffer[3] = '4';
+  dma_buffer[4] = '7';
+  dma_buffer[5] = '6';
+  dma_buffer[6] = ' ';
 
-  for (uint16_t i = 3; i< 1000; i++){
-	   dma_buffer[i] = 'k';
+  for (uint16_t i = 7; i< 1000; i++){
+	   dma_buffer[i] = '*';
    }
   /* USER CODE END Init */
 
@@ -533,11 +537,11 @@ void StartTask03(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  printf("Task3\r\n");
-	  printf("%c", dma_rx_buffer[0]);
 	  osDelay(1);
-	  //HAL_UART_Transmit_DMA(&huart1, dma_buffer, 1);
 	  if (fg_usart1_byte_received == 1){
+		 printf("Task3\r\n");
+		 printf("New character: %c\r\n", dma_rx_buffer[0]);
+
          fg_usart1_byte_received = 0;
          HAL_UART_Transmit_DMA(&huart1, dma_rx_buffer, 1);
 	     HAL_UART_Receive_DMA(&huart1, dma_rx_buffer, 1);
